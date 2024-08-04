@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Platform } from "react-native";
 import SlotMachine from "./components/SlotMachine";
 import ControlPanel from "./components/ControlPanel";
 
@@ -9,9 +9,11 @@ export default function App() {
   const [slots, setSlots] = useState(["X", "X", "X"]);
   const [isSpinning, setIsSpinning] = useState(false);
 
+  const LOCAL_HOST = Platform.OS === "ios" ? "localhost" : "10.0.2.2";
+
   const initializeSession = async () => {
     try {
-      const response = await fetch("http://localhost:3000/game/start", {
+      const response = await fetch(`http://${LOCAL_HOST}:3000/game/start`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -28,7 +30,7 @@ export default function App() {
   const handleSpin = async () => {
     try {
       setIsSpinning(true);
-      const response = await fetch("http://localhost:3000/game/spinSlot", {
+      const response = await fetch(`http://${LOCAL_HOST}:3000/game/spinSlot`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -52,7 +54,7 @@ export default function App() {
 
   const handleCashOut = async () => {
     try {
-      const response = await fetch("http://localhost:3000/game/cashOut", {
+      const response = await fetch(`http://${LOCAL_HOST}:3000/game/cashOut`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
